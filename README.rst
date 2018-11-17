@@ -23,3 +23,14 @@ Use following configuration in your configuration.yaml
 Get your access token from SMSApi.pl website. Go to `API settings <https://ssl.smsapi.pl/webapp#/oauth/manage>`__ and set up OAuth token.
 
 Recipient is a mobile number with country prefix (+48 = Poland in this case).
+
+
+Blebox wLightBoxS component
+-----------------------------
+
+.. code:: yaml
+
+  light:
+  - name: My Blebox Light
+    platform: wlightboxs
+    host: 192.168.0.100
