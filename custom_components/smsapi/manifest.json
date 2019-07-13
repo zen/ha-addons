@@ -1,0 +1,12 @@
+{
+  "domain": "smsapi",
+  "name": "SMSAPI",
+  "documentation": "https://github.com/zen/ha-addons",
+  "requirements": [
+    "smsapi-client==2.1.4"
+  ],
+  "dependencies": [],
+  "codeowners": [
+    "@zen"
+  ]
+}
