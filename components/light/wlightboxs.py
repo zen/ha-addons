@@ -34,13 +34,13 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Blebox wLightBoxS platform."""
 
-    from pyblebox.wlightboxs import wLightBoxS
+    import pyblebox.wlightboxs
     from pyblebox.exceptions import wLightBoxSConnectionError
 
     host = config.get(CONF_HOST)
     name = config.get(CONF_NAME)
 
-    wlightboxs = wLightBoxS(host)
+    wlightboxs = pyblebox.wlightboxs.wLightBoxS(host)
 
     try:
         if wlightboxs.get_status()['device']['type'] != 'wLightBoxS':
@@ -49,17 +49,17 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     except wLightBoxSConnectionError:
         _LOGGER.warning("No connection to device: %s", host)
 
-    add_devices([wLightBoxS(host)], True)
+    add_devices([wLightBoxS(wlightboxs, name)], True)
 
 
 class wLightBoxS(Light):
     """Representation of an wLightBoxS."""
 
-    def __init__(self, light):
+    def __init__(self, light, name):
         """Initialize a wLightBoxS."""
 
         self._light = light
-        self._name = None
+        self._name = name
         self._state = None
         self._brightness = None
         self._supported_features = SUPPORT_BRIGHTNESS
