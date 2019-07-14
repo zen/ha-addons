@@ -1,19 +1,14 @@
-"""
-Support for the SMSApi platform.
-
-For more details about this platform, please refer to the documentation at
-https://github.com/zen/ha-addons
-"""
+"""Support for the SMSApi platform."""
 import logging
 
+from smsapi.client import SmsApiPlClient
+from smsapi.exception import SmsApiException
 import voluptuous as vol
 
 from homeassistant.components.notify import (
     PLATFORM_SCHEMA, BaseNotificationService)
 from homeassistant.const import CONF_ACCESS_TOKEN, CONF_RECIPIENT
 import homeassistant.helpers.config_validation as cv
-
-#REQUIREMENTS = ['smsapi-client==2.1.4']
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -34,16 +29,14 @@ class SMSApiNotificationService(BaseNotificationService):
 
     def __init__(self, access_token, recipient):
         """Initialize the service."""
-        from smsapi.client import SmsApiPlClient
+
         self.smsapi = SmsApiPlClient(access_token=access_token)
         self._recipient = recipient
 
     def send_message(self, message="", **kwargs):
         """Send a SMS message via SMSApi."""
 
-        from smsapi.exception import SmsApiException
-
         try:
             self.smsapi.sms.send(to=self._recipient, message=message)
-        except SmsApiException as e:
-            _LOGGER.error(str(e))
+        except SmsApiException as exc:
+            _LOGGER.error(str(exc))
